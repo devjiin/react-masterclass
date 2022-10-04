@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styled from "styled-components";
 
 interface CircleProps {
@@ -15,6 +16,10 @@ const Container = styled.div<CircleProps>`
 `;
 
 function Circle({ bgColor, borderColor, text = "default" }: CircleProps) {
+	const [counter, setValue] = useState<number|string>(1);
+	setValue(1);
+	setValue("string");
+	// setValue(true); : boolean은 지정 안해줬기 때문에 에러뜸
   return <Container bgColor={bgColor} borderColor={borderColor ?? bgColor} >{text}</Container>;
 }
 
