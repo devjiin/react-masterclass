@@ -5,7 +5,7 @@ interface Params {
 }
 
 function Coin() {
-	const { coinId } = useParams() as unknown as Params;
+	const { coinId } = useParams<Params>();
 	return <h1>Conin : {coinId}</h1>
 }
 
