@@ -59,7 +59,8 @@ const Global = createGlobalStyle`
 	color: ${props => props.theme.textColor};
 	}
 	a{ 
-	text-decoration:none
+	text-decoration:none;
+	color:inherit;
 	}
 `;
 
