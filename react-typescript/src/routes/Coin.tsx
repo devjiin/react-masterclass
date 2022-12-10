@@ -1,8 +1,10 @@
 import { Switch, Route, useLocation, useParams, useRouteMatch } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
 import Price from "./Price";
 import Chart from "./Chart";
+import { fetchCoinInfo, fetchCoinTickers } from "../api";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -77,7 +79,7 @@ interface RouteState {
 	name: string;
 }
 
-interface infoData {
+interface InfoData {
 	id: string;
 	name: string;
 	symbol: string;
@@ -98,7 +100,7 @@ interface infoData {
 	first_data_at: string;
 	last_data_at: string;
 }
-interface priceData {
+interface PriceData {
 	id:string;
 	name:string;
 	symbol:string;
@@ -133,13 +135,13 @@ interface priceData {
 }
 
 function Coin() {
-	const [loading, setLoading] = useState(true);
 	const { coinId } = useParams<RouteParams>();
 	const { state } = useLocation<RouteState>();
-	const [info, setinfo] = useState<infoData>();
+	const priceMatch = useRouteMatch("/:coinId/price");
+	const chartMatch = useRouteMatch("/:coinId/chart");
+	/* const [loading, setLoading] = useState(true);
 	const [priceInfo, setPriceInfo] = useState<priceData>();
-	const priceMatch = useRouteMatch("/:coinid/price");
-	const chartMatch = useRouteMatch("/:coinid/chart");
+	const [info, setinfo] = useState<infoData>();
 	useEffect(() => {
 		(async () => {
 			const infoData = await (await fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`)).json();
@@ -148,11 +150,14 @@ function Coin() {
 			setPriceInfo(priceData);
 			setLoading(false);
 		})();
-	}, [coinId]);
+	}, [coinId]); */
+	const {isLoading: infoLoading, data: infoData} = useQuery<InfoData>(["info", coinId], () => fetchCoinInfo(coinId));
+	const {isLoading: tickersLoading, data: tickersData} = useQuery<PriceData>(["tickers", coinId], () => fetchCoinTickers(coinId));
+	const loading = infoLoading || tickersLoading;
 	return (
 		<Container>
 			<Header>
-				<Title>{state?.name ? state.name :  loading ? "Loading..." : info?.name}</Title>
+				<Title>{state?.name ? state.name :  loading ? "Loading..." : infoData?.name}</Title>
 			</Header>
 			{loading ? (
 				<Loader>loading...</Loader>
@@ -161,26 +166,26 @@ function Coin() {
 					<Overview>
 						<OverviewItem>
 							<span>Rank:</span>
-							<span>{info?.rank}</span>
+							<span>{infoData?.rank}</span>
 						</OverviewItem>
 						<OverviewItem>
 							<span>Symbol:</span>
-							<span>{info?.symbol}</span>
+							<span>{infoData?.symbol}</span>
 						</OverviewItem>
 						<OverviewItem>
 							<span>Opne source:</span>
-							<span>{info?.open_source ? "Yes" : "No"}</span>
+							<span>{infoData?.open_source ? "Yes" : "No"}</span>
 						</OverviewItem>
 					</Overview>
-					<Description><span>{info?.description}</span></Description>
+					<Description><span>{infoData?.description}</span></Description>
 					<Overview>
 						<OverviewItem>
 							<span>Total Suply:</span>
-							<span>{priceInfo?.total_supply}</span>
+							<span>{tickersData?.total_supply}</span>
 						</OverviewItem>
 						<OverviewItem>
 							<span>Max Supply:</span>
-							<span>{priceInfo?.max_supply}</span>
+							<span>{tickersData?.max_supply}</span>
 						</OverviewItem>
 					</Overview>
 					<Tabs>
