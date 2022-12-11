@@ -19,7 +19,6 @@ function Chart({ coinId }: ChartProps) {
 	const { isLoading, data } = useQuery<Ihistorical[]>(["ohlcv", coinId], () =>
 		fetchCoinHistory(coinId)
 	);
-	// const 
 	return (
 		<div>
 			{isLoading ? (
@@ -27,17 +26,49 @@ function Chart({ coinId }: ChartProps) {
 			) : (
 				<ApexChart
 					type="line"
-					series= {[
-						{ name: "price", data: data?.map((price) => parseFloat(price.close)) ?? []}, //니꼬쌤 제공 api는 강의와 달라 close값이 string이기 때문에 정수로 변환해줘야 한다. (?? null 병합 연산자)
+					series={[
+						{
+							name: "price",
+							data:
+								data?.map((price) => parseFloat(price.close)) ??
+								[],
+						}, //니꼬쌤 제공 api는 강의와 달라 close값이 string이기 때문에 정수로 변환해줘야 한다. (?? null 병합 연산자)
 					]}
 					options={{
-						
 						theme: { mode: "dark" },
-						chart: { height: 500, width: 500, toolbar: {show: false}, background: 'transparent' },
-						grid: {show: false},
-						stroke: {curve: "smooth", width: 4},
-						yaxis: {show: false},
-						xaxis: {labels: {show: false}, axisTicks:{show: false}, axisBorder: {show: false}}
+						chart: {
+							height: 500,
+							width: 500,
+							toolbar: { show: false },
+							background: "transparent",
+						},
+						grid: { show: false },
+						stroke: { curve: "smooth", width: 4 },
+						yaxis: { show: false },
+						xaxis: {
+							labels: {
+								show: false,
+							},
+							axisTicks: { show: false },
+							axisBorder: { show: false },
+							type: "datetime",
+							categories: data?.map((price) =>
+								new Date(price.time_close * 1000).toISOString()
+							),
+						},
+						fill: {
+							type: "gradient",
+							gradient: {
+								gradientToColors: ["#0be881"],
+								stops: [0, 100],
+							},
+						},
+						colors: ["#0fbcf9"],
+						tooltip: {
+							y: {
+								formatter: (value) => `$${value.toFixed(2)}`,
+							},
+						},
 					}}
 				/>
 			)}
