@@ -4,6 +4,7 @@ import { Link } from "react-router-dom"
 import { useQuery } from "react-query";
 import { Helmet } from "react-helmet";
 import { fetchCoins } from "../api";
+import { Loader } from "../component/Loader";
 
 const Container = styled.div`
 	padding: 0px 20px;
@@ -51,10 +52,6 @@ const Coin = styled.li`
 
 `;
 
-const Loader = styled.div`
-	text-align:center;
-`
-
 interface Icoin {
 	id: string,
 	name: string,
@@ -86,8 +83,9 @@ function Coins() {
 				<Title>코인</Title>
 			</Header>
 			{isLoading ? (
-				<Loader>loading...</Loader>
-			) : (
+				<Loader/>
+			) : 
+			(
 			<CoinList>
 				{data?.slice(0, 100).map((coin) => (
 					<Coin key={coin.id} >
