@@ -1,11 +1,11 @@
 {
   "files": {
-    "main.js": "/react-masterclass/react-typescript/static/js/main.2f4befbf.js",
-    "static/media/loading.gif": "/react-masterclass/react-typescript/static/media/loading.2bf2e1673b9af2c646f8.gif",
-    "index.html": "/react-masterclass/react-typescript/index.html",
-    "main.2f4befbf.js.map": "/react-masterclass/react-typescript/static/js/main.2f4befbf.js.map"
+    "main.js": "/react-masterclass/static/js/main.84cd43d1.js",
+    "static/media/loading.gif": "/react-masterclass/static/media/loading.2bf2e1673b9af2c646f8.gif",
+    "index.html": "/react-masterclass/index.html",
+    "main.84cd43d1.js.map": "/react-masterclass/static/js/main.84cd43d1.js.map"
   },
   "entrypoints": [
-    "static/js/main.2f4befbf.js"
+    "static/js/main.84cd43d1.js"
   ]
 }
