@@ -68,7 +68,7 @@ function App() {
 	return (
 		<>
 		<Global />
-		<Router / >
+		<Router />
 		</>
 	)
 }
