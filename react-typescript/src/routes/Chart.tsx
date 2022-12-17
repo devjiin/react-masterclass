@@ -14,8 +14,9 @@ interface Ihistorical {
 }
 interface ChartProps {
 	coinId: string;
+	isDark: boolean;
 }
-function Chart({ coinId }: ChartProps) {
+function Chart({ coinId, isDark }: ChartProps) {
 	const { isLoading, data } = useQuery<Ihistorical[]>(["ohlcv", coinId], () =>
 		fetchCoinHistory(coinId),
 		{
@@ -38,7 +39,7 @@ function Chart({ coinId }: ChartProps) {
 						}, //니꼬쌤 제공 api는 강의와 달라 close값이 string이기 때문에 정수로 변환해줘야 한다. (?? null 병합 연산자)
 					]}
 					options={{
-						theme: { mode: "dark" },
+						theme: { mode: isDark ? "dark" : "light" },
 						chart: {
 							height: 500,
 							width: 500,

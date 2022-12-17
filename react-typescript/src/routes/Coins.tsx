@@ -53,16 +53,20 @@ const Coin = styled.li`
 `;
 
 interface Icoin {
-	id: string,
-	name: string,
-	symbol: string,
-	rank: number,
-	is_new: boolean,
-	is_active: boolean,
-	type: string,
+	id: string;
+	name: string;
+	symbol: string;
+	rank: number;
+	is_new: boolean;
+	is_active: boolean;
+	type: string;
 }
 
-function Coins() {
+interface ICoinsProps {
+	toggleDark: () => void;
+}
+
+function Coins({toggleDark}: ICoinsProps) {
 	/* const [coins, setCoins] = useState<Icoin[]>([]);
 	const [loading, setLoading] = useState(true);
 	useEffect(()=> {
@@ -81,6 +85,7 @@ function Coins() {
 			</Helmet>
 			<Header>
 				<Title>코인</Title>
+				<button onClick={toggleDark}>toggle Dark Mode</button>
 			</Header>
 			{isLoading ? (
 				<Loader/>
