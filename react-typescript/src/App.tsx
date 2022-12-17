@@ -2,6 +2,8 @@ import Router from "./Router";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { darkTheme, lightTheme } from "./theme";
 import { useState } from "react";
+import { useRecoilValue } from "recoil";
+import { isDarkAtom } from "./atoms";
 
 const Global = createGlobalStyle`
 	@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap');
@@ -67,15 +69,12 @@ const Global = createGlobalStyle`
 `;
 
 function App() {
-	const [isDark, setIsDark ] = useState(false);
-	// setState()은 value 혹은 current state를 argument로 갖는 function을 보낼 수 있다.
-	// isDark 대신 currunt를 쓰는 이유 : isDark는 다른 다른 곳에서 변경될 수 있기 때문에 오류를 발생할 수 있다.
-	const toggleDark = () => setIsDark((currunt) =>!currunt) 
+	const isDark = useRecoilValue(isDarkAtom);
 	return (
 		<>
 		<ThemeProvider theme={isDark ? darkTheme : lightTheme}>
 			<Global />
-			<Router isDark={isDark} toggleDark={toggleDark}/>
+			<Router />
 		</ThemeProvider>
 		</>
 	)

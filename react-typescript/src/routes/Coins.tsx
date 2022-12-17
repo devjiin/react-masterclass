@@ -62,11 +62,9 @@ interface Icoin {
 	type: string;
 }
 
-interface ICoinsProps {
-	toggleDark: () => void;
-}
+interface ICoinsProps {}
 
-function Coins({toggleDark}: ICoinsProps) {
+function Coins({}: ICoinsProps) {
 	/* const [coins, setCoins] = useState<Icoin[]>([]);
 	const [loading, setLoading] = useState(true);
 	useEffect(()=> {
@@ -85,7 +83,6 @@ function Coins({toggleDark}: ICoinsProps) {
 			</Helmet>
 			<Header>
 				<Title>코인</Title>
-				<button onClick={toggleDark}>toggle Dark Mode</button>
 			</Header>
 			{isLoading ? (
 				<Loader/>
