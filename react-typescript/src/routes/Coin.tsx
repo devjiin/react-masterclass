@@ -14,14 +14,20 @@ const Container = styled.div`
 `;
 
 const Header = styled.header`
+	position:relative;
 	height: 15vh;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	a { 
+		position:absolute;
+		left:0;
+	}
 `;
 
 const Title = styled.h1`
 	font-size: 48px;
+	font-weight:bold;
 	color: ${props => props.theme.accentColor};
 `
 
@@ -32,7 +38,7 @@ const Loader = styled.div`
 const Overview = styled.div`
   display: flex;
   justify-content: space-between;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: ${(props) => props.theme.cardColor};
   padding: 10px 20px;
   border-radius: 10px;
 `;
@@ -40,6 +46,7 @@ const OverviewItem = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  color: ${(props) => props.theme.textColor};
   span:first-child {
     font-size: 10px;
     font-weight: 400;
@@ -48,6 +55,12 @@ const OverviewItem = styled.div`
   }
 `;
 const Description = styled.p`
+  display: flex;
+  justify-content: space-between;
+  background-color: ${(props) => props.theme.cardColor};
+  color: ${(props) => props.theme.textColor};
+  padding: 10px 20px;
+  border-radius: 10px;
   margin: 20px 0px;
 `;
 
@@ -63,7 +76,7 @@ const Tab = styled.span<{isActive:boolean}>`
   text-transform: uppercase;
   font-size: 12px;
   font-weight: 400;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: ${(props) => props.theme.cardColor};
   padding: 7px 0px;
   border-radius: 10px;
   color: ${(props) => props.isActive ? props.theme.accentColor : props.theme.textColor};
@@ -71,6 +84,10 @@ const Tab = styled.span<{isActive:boolean}>`
     display: block;
   }
 `;
+
+const BackText = styled.span`
+	font-size:45px;
+`
 interface RouteParams {
 	coinId: string;
 }
@@ -169,14 +186,15 @@ function Coin({} : ICoinProps) {
 			</Helmet>
 			<Header>
 				<Title>{state?.name ? state.name : loading ? "Loading..." : infoData?.name}</Title>
+				<Link to={{pathname : `/`}}><BackText>🔙</BackText></Link>
 			</Header>
 			{loading ? (
-				<Loader>loading...</Loader>
+				<Loader>{`${state?.name} 불러 오는중..`}</Loader>
 			) : (
 				<>
 					<Overview>
 						<OverviewItem>
-							<span>Rank:</span>
+							<span>순위:</span>
 							<span>{infoData?.rank}</span>
 						</OverviewItem>
 						<OverviewItem>
@@ -184,18 +202,18 @@ function Coin({} : ICoinProps) {
 							<span>{infoData?.symbol}</span>
 						</OverviewItem>
 						<OverviewItem>
-							<span>Price:</span>
+							<span>현재가:</span>
 							<span>{tickersData?.quotes.USD.price}</span>
 						</OverviewItem>
 					</Overview>
 					<Description><span>{infoData?.description}</span></Description>
 					<Overview>
 						<OverviewItem>
-							<span>Total Suply:</span>
+							<span>총량:</span>
 							<span>{tickersData?.total_supply}</span>
 						</OverviewItem>
 						<OverviewItem>
-							<span>Max Supply:</span>
+							<span>최대 발행량:</span>
 							<span>{tickersData?.max_supply}</span>
 						</OverviewItem>
 					</Overview>

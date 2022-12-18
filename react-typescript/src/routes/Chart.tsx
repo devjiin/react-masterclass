@@ -25,11 +25,17 @@ function Chart({ coinId }: ChartProps) {
 		}
 	);
 	const isDark = useRecoilValue(isDarkAtom);
+
+	let validData = data ?? [];
+	if ("error" in validData) {
+		validData = [];
+	}
 	return (
 		<div>
 			{isLoading ? (
 				"loading chart..."
 			) : (
+				<>
 				<ApexChart
 					type="line"
 					series={[
@@ -77,6 +83,85 @@ function Chart({ coinId }: ChartProps) {
 						},
 					}}
 				/>
+
+				<ApexChart
+						type="candlestick"
+						series={[
+							{
+								name: "시세",
+								data: validData.map((price) => ({
+									x: price.time_close * 1000,
+									y: [price.open, price.high, price.low, price.close],
+								})),
+							},
+						]}
+						width="100%"
+						height="160px"
+						options={{
+							noData: {
+								text: "",
+							},
+							plotOptions: {
+								candlestick: {
+									colors: {
+										upward: "#f3214f",
+										downward: "#33bd65",
+									},
+									wick: {
+										useFillColor: true,
+									},
+								},
+							},
+							fill: {
+								opacity: 0,
+							},
+							theme: {
+								mode: isDark ? "dark" : "light",
+							},
+							chart: {
+								toolbar: {
+									show: false,
+								},
+								background: "transparent",
+								fontFamily: '"Pretendard", sans-serif',
+								width: 500,
+								height: 300,
+							},
+							grid: {
+								show: false,
+							},
+							tooltip: {
+								y: {
+									formatter: (value) => `$${value.toFixed(2)}`,
+								},
+							},
+							xaxis: {
+								labels: {
+									show: false,
+								},
+								type: "datetime",
+								categories: validData.map((price) => price.time_close * 1000),
+								axisTicks: {
+									show: false,
+								},
+								axisBorder: {
+									show: false,
+								},
+								tooltip: {
+									enabled: false,
+								},
+							},
+							yaxis: {
+								labels: {
+									show: false,
+								},
+							},
+							stroke: {
+								width: 2,
+							},
+						}}
+					/>
+				</>
 			)}
 		</div>
 	);

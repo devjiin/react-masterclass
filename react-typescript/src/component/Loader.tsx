@@ -5,8 +5,8 @@ import loadingImg from "../image/loading.gif";
 
 export function Loader(){
 	const LoadStyle = styled.div`
-		width:100px;
-		height:100px;
+		width:200px;
+		height:200px;
 		margin:0 auto;
 		img{
 			width:100%;

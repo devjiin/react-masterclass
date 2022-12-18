@@ -66,6 +66,10 @@ const Global = createGlobalStyle`
 	text-decoration:none;
 	color:inherit;
 	}
+	button{
+		background:none;
+		border:none;
+	}
 `;
 
 function App() {
